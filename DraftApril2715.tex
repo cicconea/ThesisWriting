@@ -1,0 +1,457 @@
+%
+% File: thesisexample.tex   Version 1.8   May 6, 1999
+
+%  1. To get appendices, you don't do anything different from a normal
+%     report document.  That means, put the command \appendix before
+%     you begin your first appendix, then do each appendix with a
+%     \chapter command.  Note that if you have only one appendix, it is
+%     customary to leave it unnumbered.  Do this with \chapter*.
+%
+%  2.  If you use \chapter*, which produces unnumbered chapters, you 
+%       have to add that chapter to the table of contents by hand, e.g.
+%
+%         \chapter*{Appendix}
+%         \addcontentsline{toc}{chapter}{Appendix}
+%
+
+%  4.  Problems with math formulas in chapter headings:
+% 
+%         a.  Any lowercase letters in the formula are converted to
+%         uppercase, e.g. f(x) becomes F(X).   If you really need
+%         lowercase math letters in your chapter titles, use the
+%         option plainchapterheads (and, if you want, type your
+%         chapter titles in ALL CAPS so that the appearance doesn't
+%         change).  Note there is no problem 
+%         for section or subsection headings in either case.  (Options
+%         such as plainchapterheads are given as part of the 
+%         \documentclass command, see below under ``Document Options'').
+%
+%         b.  Some perfectly reasonable math commands when used in
+%         \chapter give the error
+%          ``LATEX ERROR: \command  ALLOWED ONLY IN MATH MODE.''
+%         The solution to this is to do
+%        
+%              \newcommand{\mymath}{problem math goes here}
+%       
+%         and then
+%        
+%              \chapter{All about \protect\mymath}
+%
+%         also, the option plainchapterheads will fix this too.
+%
+%  5. If your References section doesn't show up in the table of
+%     contents, you need to add the line \addcontentsline...
+%     as done at end of this file.   Make sure that you include the 
+%     page break command as done there or else you may end up
+%     with the wrong page number in your table of contents. 
+
+
+%\documentclass{easychithesis}
+
+% Document Options: 
+%
+% Note if you want to save paper when printing drafts, replace the
+% above line by
+% 
+\documentclass[singlespace]{easychithesis}
+% 
+%  Similarly, if you need to use the plainchapterheads option, you do
+%   
+%  \documentclass[plainchapterheads]{easychithesis}
+%
+% You can give more than one option, if you desire.
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\newcommand{\Lagr}{\mathcal{L}}
+
+
+
+\begin{document}
+
+% Create the official title
+\title{A Simple Model of Energy Transition Under a Carbon Budget} 
+\author{Adriana Ciccone}
+\date{\today}
+\department{Environmental Science \& Policy}
+\division{The Harris School of Public Policy Studies} 
+\degree{Master of Science} 
+\maketitle
+
+% \dedication : Use for a dedication, copyright, or epigraph.
+%               Produces a page with no number for the text which follows
+%               If you want centering, do it yourself with 
+%               \begin{center} and \end{center}.  You can have more
+%               than one `dedication'.
+%\dedication
+%\begin{center}
+%        To Roger Dean
+%\end{center}
+
+
+% \topmatter : Things like Abstract, Acknowledgements.
+% For the abstract, you can also do 
+%      \begin{abstract} ...text... \end{abstract}
+% if you prefer.
+
+\topmatter{Abstract}
+TBD
+
+
+%\topmatter{Acknowledgements}
+%I'd like to thank Jason Bermack, who unknowingly played
+%\emph{Big Generator} for me in his car, when we were both in high 
+%school, thus ensuring a long and fruitful relationship with Yes music 
+%throughout my college days.
+
+%I'd also like to thank Dave Moulton, who likes Yes too, and 
+%accompanied me to my first ever rock concert - Yes in the Oakland 
+%Coliseum.  They played ``Awaken'' for 20 minutes.  Wow.
+
+%
+% Table Of Contents
+%
+
+\tableofcontents
+
+%
+% List of figures
+% 
+
+
+%
+% Begin Body
+%
+\mainmatter
+
+%
+% Body Chapters
+%
+\chapter{Introduction}
+\section{Relevance}
+
+View problem of climate change as one of transition from fossil fuel energy to clean energy.
+
+Need to replace large durable stock of infrastructure while meeting energy demand.
+
+Goal is to understand the speed of transition.
+
+\begin{itemize}
+	\item{Do we keep on installing fossil fuel plants and plan on a quick transition in the future or do we gradually phase out fossil fuels?}
+	\item{What does the timing depend on?}
+	\item{If the optimal timing is to start replacing now, how does that affect treaty negotiations?}
+\end{itemize}
+
+
+
+Question: how to best transition to clean energy
+
+\begin{itemize}
+\item Reducing emissions involves replacing the large, durable fossil fuel
+infrastructure.
+\item Fossil fuel energy is cheaper than renewables.
+\item But the cost of renewables is going down over time.
+\item What is the best transition path?
+
+
+\begin{itemize}
+\item Gradually replace fossil energy as plants and equipment depreciate?
+\item Keep replacing fossil with more fossil and then switch quickly?
+\item Gradual transition means no early retirements but at the cost of
+installing clean energy earlier (so maybe more expensive).
+\item Waiting means future early retirements but cheaper clean energy.
+\end{itemize}
+\end{itemize}
+
+
+
+
+\begin{itemize}
+\item Simplest possible model that captures the dynamics.
+
+\item Develop intuitions, orders of magnitude effects.
+
+\item Allows us to consider uncertainty, robustness etc.
+
+\item Not attempting to model actual energy system.
+\end{itemize}
+
+
+
+Exogenous:
+
+	\begin{itemize}
+    
+    	\item{Emissions Cap}
+        \item{Energy demand}
+
+	\end{itemize}
+
+
+Have to replace fossil fuel with clean energy to stay within the cap while meeting the energy demand.
+
+Cost of clean energy goes down over time. 
+
+Timing choice: 
+
+  \begin{itemize}
+
+	\item{Install more expensive clean energy now}
+	\item{Or wait for cheaper clean energy at the cost of installing new fossil fuel plants and retiring them early.}
+
+\end{itemize}
+
+
+
+\section{Literature Review}
+
+\begin{itemize}
+\item Engineering approaches
+
+\begin{itemize}
+\item Try to determine precise number of windmills, solar panels and so
+forth.
+
+\item E.g., Work by Jacobson.
+
+\item E.g. Earth Institute Deep Decarbonization Report
+\end{itemize}
+
+\item Jacard and Rivers
+
+\begin{itemize}
+\item Optimal stopping problem.
+\end{itemize}
+\end{itemize}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{The Simple Model}
+\section{Model Setup}
+
+Power generation is accomplished by dollars of capital ($k^h(t), k^l(t)$) that can produce certain amounts of electricity in a given year.Capital is comprised of an initial investment $H_0$ or $L_0$ that depreciates exponentially, but can be supplemented with positive investments $H^+(t)$ or $L^+(t)$ that also depreciate exponentially, or retired early with $H^-(t)$ or $L^-(t)$. 
+
+Power is generated by multiplying each type of capital in a year by the overnight capital cost scaled by a capacity factor ($F^h(t), F^l(t)$. High-emitting (dirty) capital has a lower capital cost than low-emitting (clean) capital, but also has higher emissions ($m^h(t) > m^l(t) \forall t$). 
+
+To minimize the cost of early retirement, we set our objective function to minimize the net present value of new investments ($H^+(t)$ and $L^+(t)$). Any early retirement of existing capital stock removes it from the generating capacity, so in order to meet power demand requirements, new capital must be built, which is penalized by the objective function. 
+
+
+\section{Model Math}
+
+Note that the relationship between capital (the stocks) and investments (the flows) can be represented by the following equations:
+
+\begin{equation}
+k^h(t) = H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx
+\end{equation}
+
+\begin{equation}
+k^l(t) = L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx
+\end{equation}
+
+Objective: Chose $H^+(t)$, $H^-(t)$, $L^+(t)$, and $L^-(t)$ to minimize:
+
+\begin{equation}
+C = \int_0^N (H^+(t) + L^+(t))e^{-rt} dt
+\end{equation}
+
+Subject to: 
+
+\begin{equation}
+G = \bar{F}^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) + \bar{F}^l(1-e^{-t/\tau}) \left ( L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx\right )
+\end{equation}
+
+\begin{equation}
+\bar{E} \geq \int_0^N  \tilde{m}^h \bar{F}^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) dt
+\end{equation}
+
+\begin{equation}
+H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \geq 0 
+\end{equation}
+
+\begin{equation}
+L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx \geq 0 
+\end{equation}
+
+\begin{equation}
+H^+(t), H^-(t), L^+(t), L^-(t) \geq 0
+\end{equation}
+
+
+\subsection{First Order Conditions for Simple Model}
+
+\begin{equation}
+\frac{d\Lagr}{dH^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\rho - \lambda F^h -\mu m F^h) + \sigma = 0
+\end{equation}
+
+\begin{equation}
+\frac{d\Lagr}{dH^-(t)} = (\lambda F^h +\mu m F^h - \rho)t + \phi = 0
+\end{equation}
+
+\begin{equation}
+\frac{d\Lagr}{dH^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\pi - \lambda F^l(1-e^{-t/\tau})) + \gamma = 0
+\end{equation}
+
+\begin{equation}
+\frac{d\Lagr}{dH^-(t)} = (\lambda F^l(1-e^{-t/\tau}) - \pi)t + \delta = 0
+\end{equation}
+
+\begin{multline}
+\frac{d\Lagr}{d\lambda} = G - F^h\left[nH^+(t) + e^{-t/n}(n^2 + H_0(1-n)) - n^2 + \int_0^tH^-(x)dx\right] \\ - F^l (1-e^{-t/\tau})\left[nL^+(t) + e^{-t/n}(n^2 + L_0(1-n)) - n^2 + \int_0^tL^-(x)dx\right] = 0
+\end{multline}
+
+\begin{equation}
+\frac{d\Lagr}{d\mu} = \bar{E} - mF^h \left [(1-e^{-N/n})(1-n)H_0 n + n^2(N + n(1-e^{-N/n})) + n\int_0^N H^+(t) dt - \int_0^N\int_0^t H^-(x)dx dt   \right] \geq 0
+\end{equation}
+
+\begin{equation}
+\frac{d\Lagr}{d\rho} = H_0 e^{-t/n}(1-n) + nH^+(t) - n^2(1-e^{-t/n}) - \int_0^t H^-(x)dx \geq 0 
+\end{equation}
+
+\begin{equation}
+\frac{d\Lagr}{d\pi} = L_0 e^{-t/n}(1-n) + nL^+(t) - n^2(1-e^{-t/n}) - \int_0^t L^-(x)dx \geq 0 
+\end{equation}
+
+
+
+
+
+
+
+
+
+\section{Model Results}
+
+\section{Model Discussion}
+
+efficiencies/emissions and their problem
+biases of results
+operating costs 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{The Vintaged Model}
+\section{Model Setup}
+
+\section{Model Math}
+
+Capital now is allowed to have a vintage associated with it's first year of construction:
+
+\begin{equation}
+k_i^h(t) = H_i^+ e^{-i-t/n} - \int_i^t H^-_i(x)dx
+\end{equation}
+
+\begin{equation}
+k_i^l(t) = L_i^+ e^{-i-t/n} - \int_i^t L^-_i(x)dx
+\end{equation}
+
+\begin{equation}
+H^+_i, H^-_i(t), L^+_i(t), L^-_i(t) \geq 0 \forall i, t
+\end{equation}
+
+min Cost (TBD) subject to:
+
+\begin{equation}
+G(t) = \int_0^t F^h(i)k_i^h(t) + F^l(i)k_i^l(t) di
+\end{equation}
+
+\begin{equation}
+\int_{t=0}^{t=N}\int_{i=0}^{i=t} m^h(i)F^h(i)k_i^h(t) + m^l(i)F^l(i)k_i^l(t) di dt \leq \bar{E}
+\end{equation}
+
+\begin{equation}
+H_i^+ e^{-i-t/n} - \int_i^t H^-_i(x)dx \geq 0
+\end{equation}
+
+\begin{equation}
+L_i^+ e^{-i-t/n} - \int_i^t L^-_i(x)dx \geq 0
+\end{equation}
+
+
+
+Imagine that there is no negative investment for a particular vintage of high-emitting capital. Total lifetime capital would be:
+
+\begin{equation}
+C_i = \int_i^N H^+_i e^{i-t/n}dt
+\end{equation}
+
+In reality, there will be one or more disinvestments over time, such that the actual useful capital is defined by our capital equations as:
+
+\begin{equation}
+K^{total}_i = \int_i^N \left[H^+_i e^{i-t/n} dt - \int_i^t H^-_i(x)dx \right] dt
+\end{equation}
+
+The operating cost that is saved is a fraction $\beta$ of the difference of these two terms:
+
+\begin{equation}
+OC_i = \beta (C_i - K^{total}_i)
+\end{equation}
+
+
+Substituting this expression and integrating over all vintages  i $\in \{0,N\}$:
+
+\begin{equation}
+OC_i = \beta \int_{i=0}^N \int_{t=i}^N \int_{x=i}^t H^-_i(x) dx dt di
+\end{equation}
+
+So the total objective function is then:
+
+\begin{equation}
+C = \int_{i=0}^N  \left[ (H^+_i + L^+_i)e^{-ri}  - \beta  \int_{t=i}^N \int_{x=i}^t H^-_i(x)e^{-rx} dx dt\right] di
+\end{equation}
+
+
+
+
+
+
+\section{Model Results}
+
+\section{Model Discussion}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Conclusions}
+
+Future work - learning by doing, uncertainty
+
+
+%
+% Appendices
+%
+\appendix
+\chapter{}
+
+\chapter{}
+
+
+
+\singlespacing
+\pagebreak
+\addcontentsline{toc}{chapter}{References}
+
+\begin{thebibliography}{99}
+   % the 99 is as wide or wider than any bibliography labels.
+\bibitem{fragile}Anderson, Bruford, Squire, Wakeman.  \emph{Fragile}.
+  Atlantic, 1973.
+\end{thebibliography}
+
+\end{document}
+
+
+
+
+
+

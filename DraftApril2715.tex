@@ -18,6 +18,12 @@
 \usepackage{amssymb}
 \newcommand{\Lagr}{\mathcal{L}}
 \usepackage{tabulary}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage[section]{placeins}
+
+
 
 
 \begin{document}
@@ -186,11 +192,11 @@ To minimize the cost of early retirement, we set our objective function to minim
 
 \paragraph{} Each type of capital depreciates exponentially over time. The decision variables for the optimization are additional investments in each type of capital that also depreciate at the same rate, represented by four functions ($H^+(t), H^-(t), L^+(t), \& L^-(t)$). These decision variables define the optimal path of investment in dirty (high emitting) and clean (low emitting) capital. All four functions are non-negative over their domain. The functions $H^+(t)$ and $L^+(t)$ represent additional dollars of investment to build new capital of each type. $H^-(t)$ and $L^-(t)$ remove capital from the economy via early retirement. There is no scrap cost to early retirement - the economy simply loses the ability to produce electricity from that particular facility. As I show in the next section, this has consequences for the ability of the economy to meet it's total electricity demand. The retired plant cannot be re-started. Any need for additional capital in time t must be met by a positive investment in either $H^+(t)$ or $L^+(t)$. 
 
-\begin{equation}
+\begin{equation}\label{eq:simpleHCapitalConstraint}
 k^h(t) = H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \geq 0 \qquad \forall t
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:simpleLCapitalConstraint}
 k^l(t) = L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx \geq 0 \qquad \forall t
 \end{equation}
 
@@ -199,7 +205,7 @@ These equations express total capital in each time period as a function of some 
 
 \paragraph{} The objective is to minimize total additional positive investment in both high and low carbon intensity capital for the lowest cost transition to clean energy. We minimize over positive investment only to avoid negative investment - early retirement - benefiting the objective. Instead, early retirement forces additional investment later in the simulation due to an energy generation constraint. That is, if we retire a certain amount of capital early and have a shortfall in generation capacity, we must make a positive investment at some later point. This extra generation would be counted as additional positive investment in the below objective function, penalizing early retirement. The sum is discounted by an interest rate so that we minimize over the net present value of investments. 
 
-\begin{equation}
+\begin{equation}\label{eq:simpleObjective}
 C(H^+(t), L^+(t)) = \int_0^N (H^+(t) + L^+(t))e^{-rt}) dt \quad if H(t), L(t) \geq 0
 \end{equation}
 
@@ -210,7 +216,7 @@ C(H^+(t), L^+(t)) = \int_0^N (H^+(t) + L^+(t))e^{-rt}) dt \quad if H(t), L(t) \g
 
 \paragraph{} The economy has some total energy demand that can follow any exogenous path over time. This represents total annual electricity demand, in billions of kilowatt-hours, and therefore daily and seasonal fluctuations in power demand are ignored. Capital must be used to produce electricity to meet this demand, and we must convert from dollars of capital to kilowatt-hours of electricity to take in to account the relative cost difference of producing one unit of clean energy versus one unit of dirty energy. 
 
-\begin{equation}
+\begin{equation}\label{eq:simpleGenConstraint}
 G(t) = F^h(t) k^h(t) + F^l(t) k^l(t)
 \end{equation}
 
@@ -221,19 +227,19 @@ In this equation, $F^h (t)$ and $F^l (t)$ are the overnight capital cost per bil
 
 \paragraph{} An emissions cap is negotiated by the region's government. Over the course of a fixed number of years, the region must not emit more than a negotiated percent of business as usual emissions. In practice, the government could negotiate to agree to a limit on total number of tons of $CO_2$ emitted instead of negotiating a percentage of business as usual. However, it is convenient to represent a bulk emissions cap as a percent reduction for both modeling and to understand how our optimal cost will change as a function of total allowed emissions.
 
-\begin{equation}
+\begin{equation}\label{eq:simpleMaxEmission}
 E_{max} = \alpha \int_0^N m^h(t) F^h(t) H^+(0) + m^l(t) F^l(t) L^+(0) dt \qquad \alpha \in [0,1]
 \end{equation}
 
 To arrive at an emissions cap, we transform dollars of capital to kilowatt-hours per year as above, then multiply by the carbon intensity of energy, $m^h(t)$ and $m^l(t)$. This value is a measurement of the pounds of $CO_2$ emitted from power generation per kilowatt-hour. We can then write actual emissions over the length of simulation as the following. 
 
-\begin{equation}
+\begin{equation}\label{eq:simpleSimEmission}
 E(H, L) = \int_0^N  m^h(t) F^h(t) H_0 + m^l(t) F^l(t) L_0 dt
 \end{equation}
 
 Total emissions over the treaty's length must not exceed the cap represented by a fraction of business as usual, leading to the final constraint: 
 
-\begin{equation}
+\begin{equation}\label{eq:simpleEmitConstraint}
 E(H,L) \leq E_{max}
 \end{equation}
 
@@ -246,29 +252,29 @@ In order to attempt an analytical solution, I make several key assumptions about
 
 Objective: Chose $H^+(t)$, $H^-(t)$, $L^+(t)$, and $L^-(t)$ to minimize:
 
-\begin{equation}
+\begin{equation}\label{eq:analyticalObj}
 C = \int_0^N (H^+(t) + L^+(t))e^{-rt} dt
 \end{equation}
 
 Subject to: 
 
-\begin{multline}
+\begin{multline}\label{eq:analyticalGen}
 G = \bar{F}^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) \\ + \bar{F}^l(1-e^{-t/\tau}) \left ( L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx\right )
 \end{multline}
 
-\begin{equation}
-\bar{E} \geq \int_0^N  \tilde{m}^h \bar{F}^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) dt
+\begin{equation}\label{eq:analyticalEmit}
+m^hF^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) \leq \alpha N m^h F^h H^+(0)
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:analyticalHCapConstraint}
 H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \geq 0 
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:analyticalLCapConstraint}
 L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx \geq 0 
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:analyticalDecisionVarConstraint}
 H^+(t), H^-(t), L^+(t), L^-(t) \geq 0
 \end{equation}
 
@@ -278,35 +284,35 @@ H^+(t), H^-(t), L^+(t), L^-(t) \geq 0
 
 Note that a solution will go here if I can get one. For now, the first order conditions are as follows:
 
-\begin{equation}
+\begin{equation}\label{eq:dLdH+}
 \frac{d\Lagr}{dH^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\rho - \lambda F^h -\mu m F^h) + \sigma = 0
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:dLdH-}
 \frac{d\Lagr}{dH^-(t)} = (\lambda F^h +\mu m F^h - \rho)t + \phi = 0
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:dLdL+}
 \frac{d\Lagr}{dH^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\pi - \lambda F^l(1-e^{-t/\tau})) + \gamma = 0
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:dLdL-}
 \frac{d\Lagr}{dH^-(t)} = (\lambda F^l(1-e^{-t/\tau}) - \pi)t + \delta = 0
 \end{equation}
 
-\begin{multline}
+\begin{multline}\label{eq:dLdlambda}
 \frac{d\Lagr}{d\lambda} = G - F^h\left[nH^+(t) + e^{-t/n}(n^2 + H_0(1-n)) - n^2 + \int_0^tH^-(x)dx\right] \\ - F^l (1-e^{-t/\tau})\left[nL^+(t) + e^{-t/n}(n^2 + L_0(1-n)) - n^2 + \int_0^tL^-(x)dx\right] = 0
 \end{multline}
 
-\begin{multline}
+\begin{multline}\label{eq:dLdmu}
 \frac{d\Lagr}{d\mu} = \bar{E} - mF^h \left [(1-e^{-N/n})(1-n)H_0 n + n^2(N + n(1-e^{-N/n})) \right.\\ + \left. n\int_0^N H^+(t) dt - \int_0^N\int_0^t H^-(x)dx dt   \right] \geq 0
 \end{multline}
 
-\begin{equation}
+\begin{equation}\label{eq:dLdrho}
 \frac{d\Lagr}{d\rho} = H_0 e^{-t/n}(1-n) + nH^+(t) - n^2(1-e^{-t/n}) - \int_0^t H^-(x)dx \geq 0 
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eq:dLdpi}
 \frac{d\Lagr}{d\pi} = L_0 e^{-t/n}(1-n) + nL^+(t) - n^2(1-e^{-t/n}) - \int_0^t L^-(x)dx \geq 0 
 \end{equation}
 
@@ -320,15 +326,25 @@ Note that a solution will go here if I can get one. For now, the first order con
 \subsection{Functional Form Choices}
 
 
+\includegraphics[width=0.9\textwidth]{Fl_Simulation_Range.png}
+
+
 \subsection{Parameter Values}
 
 \begin{tabulary}{1.0\textwidth}{LLLL}
-    Variable & Description & Value & Source\\
-    \hline
-alpha &  Regional Land Area  &  Not Specified  &  N/A \\
-area0 &  Initial Regional Land Area  &  Not Specified  &  N/A \\
-landloss &  Regional Land Loss due to Sea Level Rise  &  Not Specified  &  N/A \\
-	\hline
+Variable & Description & Value & Source\\
+\hline
+$\alpha$ &  \% Business As Usual Emissions  &  Varied  &  Varied \\
+$Fl_min$ & & & \\
+$F_max$ & & & \\
+$Scale$ & & & \\
+$Fh_min$ & & & \\
+$Fh_max$ & & & \\
+$G_0$ & & & \\
+$G_m$ & & & \\
+$c^l$ & & & \\
+$c^h$ & & & \\
+\hline
 \end{tabulary}
 
 
@@ -338,45 +354,84 @@ link to source code
 
 
 \section{Model Results}
-
-
-\includegraphics[width=0.9\textwidth]{Fl_Simulation_Range.png}
-
-
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_A_1.png}
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_A_25.png}
-
-
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_A_50.png}
-
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_A_75.png}
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_A_100.png}
+\FloatBarrier
 
 
 
 
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_Fl_1.png}
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_Fl_25.png}
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_Fl_50.png}
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_Fl_75.png}
-\includegraphics[width=0.9\textwidth]{cap_and_invest_results_Fl_100.png}
+\begin{figure}[h]\label{fig:SimpleResultsA=1}
+\includegraphics[width=\textwidth]{cap_and_invest_results_A_1.png}
+\caption{Alpha = 1}
+\end{figure}
+
+\begin{figure}[h]\label{fig:SimpleResultsA=25}
+\includegraphics[width=\textwidth]{cap_and_invest_results_A_25.png}
+\caption{Alpha = 25}
+\end{figure}
+
+\begin{figure}[h]\label{fig:SimpleResultsA=50}
+\includegraphics[width=\textwidth]{cap_and_invest_results_A_50.png}
+\caption{Alpha = 50}
+\end{figure}
+
+\begin{figure}[h]\label{fig:SimpleResultsA=75}
+\includegraphics[width=\textwidth]{cap_and_invest_results_A_75.png}
+\caption{Alpha = 75}
+\end{figure}
+
+
+\begin{figure}[h]\label{fig:SimpleResultsA=100}
+\includegraphics[width=\textwidth]{cap_and_invest_results_A_100.png}
+\caption{Alpha = 100}
+\end{figure}
 
 
 
 
-\includegraphics[width=0.9\textwidth]{cost_as_func_of_Fl_emissions_05.png}
+\begin{figure}[h]\label{fig:SimpleResultsFl=1}
+\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_1.png}
+\caption{Fl = 1}
+\end{figure}
+
+
+\begin{figure}[h]\label{fig:SimpleResultsFl=25}
+\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_25.png}
+\caption{Fl = 25}
+\end{figure}
+
+
+\begin{figure}[h]\label{fig:SimpleResultsFl=50}
+\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_50.png}
+\caption{Fl = 50}
+\end{figure}
+
+\begin{figure}[h]\label{fig:SimpleResultsFl=75}
+\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_75.png}
+\caption{Fl = 75}
+\end{figure}
+
+\begin{figure}[h]\label{fig:SimpleResultsFl=100}
+\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_100.png}
+\caption{Fl = 100}
+\end{figure}
+
+
+\begin{figure}[h]\label{fig:costVsFl}
+\includegraphics[width=\textwidth]{cost_as_func_of_Fl_emissions_05.png}
+\caption{Cost vs Fl}
+\end{figure}
+
+\begin{figure}[h]\label{fig:costVsAlpha}
+\includegraphics[width=\textwidth]{cost_as_func_of_Alpha.png}
+\caption{Cost vs Alpha}
+\end{figure}
 
 
 
-\includegraphics[width=0.9\textwidth]{cost_as_func_of_Alpha.png}
 
 
 
-
-
-
-
-
+\FloatBarrier
 
 
 \section{Model Discussion}

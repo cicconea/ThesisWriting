@@ -371,18 +371,18 @@ As we can see from the parameters in this table, clean capital has a higher cost
 
 \paragraph{} I run the model multiple sets of parameter values. Specifically, two parameters of interest are the speed of clean capital cost reductions (Scale in table \ref{tab:ParamValues}) and the fraction of business as usual emissions that define the emissions cap. Based on the equations in section \ref{sec:ModelDesc}, we would expect the minimum cost of the transition to increase with the size of the emissions cap. As we require a smaller and smaller percentage of $CO_2$ to be emitted over the length of the simulation, we must build more and more low-emitting (clean) capital. Since it is more costly to build per kilowatt-hour than coal or gas plants, our objective function is penalized. Figure \ref{fig:costVsAlpha} shows the relationship between emissions reduction and total transition cost. 
 
-\begin{figure}[h]\label{fig:costVsAlpha}
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{cost_as_func_of_Alpha.png}
-\caption{Cost vs Alpha}
+\caption{Cost vs Alpha\label{fig:costVsAlpha}}
 \end{figure}
 
 
 
 \paragraph{} For high values of $\alpha$, the emissions cap is small compared to business as usual - that is, we commit to 1-$\alpha$ reduction in BAU emissions. Consequently, we do not have to build large amounts of clean capital to accomplish such a reduction and because it is less cost-efficient to build, we chose not to invest heavily in clean technologies. Figure \ref{fig:SimpleResultsA=75} gives an example of such a transition where the emissions cap is set to emit no more than 75\% of business as usual emissions. 
 
-\begin{figure}[h]\label{fig:SimpleResultsA=75}
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{cap_and_invest_results_A_75.png}
-\caption{Alpha = 75}
+\caption{Alpha = 75\label{fig:SimpleResultsA=75}}
 \end{figure}
 
 
@@ -392,31 +392,31 @@ As we can see from the parameters in this table, clean capital has a higher cost
 
 \paragraph{} In comparison, when the emissions cap is set much lower, say 25\% of business as usual emissions, investment in clean technologies must happen much sooner and with a higher magnitude of investment. Such a transition is shown in figure \ref{fig:SimpleResultsA=25}. 
 
-\begin{figure}[h]\label{fig:SimpleResultsA=25}
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{cap_and_invest_results_A_25.png}
-\caption{Alpha = 25}
+\caption{Alpha = 25\label{fig:SimpleResultsA=25}}
 \end{figure}
 
 
 
 \paragraph{} The characteristic spike in clean capital investment appears in all but the most extreme cases of parameter selection. Shown below are results from running the simulation over various speeds of clean capital cost reduction. As we would expect, the faster the cost reduction speed, the lower the cost of transition because we can take advantage of more cost-effective clean capital earlier in the simulation, reducing the need to early retire polluting capital once the economy nears it's emissions cap. The results from these simulations are shown in figure \ref{fig:costVsFl}. 
 
-\begin{figure}[h]\label{fig:costVsFl}
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{cost_as_func_of_Fl_emissions_05.png}
-\caption{Cost vs Fl}
+\caption{Cost vs Fl\label{fig:costVsFl}}
 \end{figure}
 
 
-\begin{figure}[h]\label{fig:SimpleResultsFl=1}
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{cap_and_invest_results_Fl_1.png}
-\caption{Fl = 1}
+\caption{Fl = 1\label{fig:SimpleResultsFl=1}}
 \end{figure}
 
 \paragraph{} Similar patterns in our optimization solution emerge when we consider the speed of capital cost reductions of clean technologies. A low speed transition, such as one shown in figure \ref{fig:SimpleResultsFl=1} shows that additional positive investments in high-emitting technologies must be made early in the simulation to ensure adequate generating capacity. However, much of this early investment must be retired early to avoid exceeding the emissions cap resulting in a higher penalty to the overall transition cost as less cost-effective clean capital is substituted. This is contrasted with a very quick cost reduction scenario such as in figure \ref{fig:SimpleResultsFl=100} where hardly any additional high-emitting capital is invested at all. Instead the model can meet it's generation demand by substituting clean energy capacity at a relatively lower cost per kilowatt hour than in the previous scenario. While some high emitting capital must still be retired early, the amount of capital subjected to early retirement is roughly an order of magnitude less than in the slow-transition speed scenario. 
 
-\begin{figure}[h]\label{fig:SimpleResultsFl=100}
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{cap_and_invest_results_Fl_100.png}
-\caption{Fl = 100}
+\caption{Fl = 100\label{fig:SimpleResultsFl=100}}
 \end{figure}
 
 

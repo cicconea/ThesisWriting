@@ -173,7 +173,7 @@ forth.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{The Simple Model}
+\chapter{Modeling Choices}
 \section{Model Setup}
 
 Power generation is accomplished by dollars of capital ($k^h(t), k^l(t)$) that can produce certain amounts of electricity in a given year.Capital is comprised of an initial investment $H_0$ or $L_0$ that depreciates exponentially, but can be supplemented with positive investments $H^+(t)$ or $L^+(t)$ that also depreciate exponentially, or retired early with $H^-(t)$ or $L^-(t)$.  \\
@@ -185,7 +185,7 @@ To minimize the cost of early retirement, we set our objective function to minim
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Model Math}
+\section{Model Description}\label{sec:ModelDesc}
 
 \paragraph{} The region or country of interest produces electricity by two methods: clean (low emitting, represented by $k^l(t)$) and dirty (high emitting, represented by $k^h(t)$). Clean capital produces electricity with low carbon dioxide emissions, but, as a newer technology, it is more expensive per unit of power output than dirty. Since it is a new technology, the capital cost is expected to decrease over time as the production process matures and technological innovation produces lower-cost units. Dirty capital is a mature technology that is cheap to build but emits a higher level of carbon dioxide per unit of electricity produced than clean. Since it is a mature technology, there is little reason to believe that production costs will decline substantially in the future. 
 
@@ -321,105 +321,55 @@ Note that a solution will go here if I can get one. For now, the first order con
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Model Parameters}
-\subsection{Functional Form Choices}
-
-
-\includegraphics[width=0.9\textwidth]{Fl_Simulation_Range.png}
-
-
-\subsection{Parameter Values}
-
-\begin{tabulary}{1.0\textwidth}{LLLL}
-Variable & Description & Value & Source\\
-\hline
-$\alpha$ &  \% Business As Usual Emissions  &  Varied  &  Varied \\
-$Fl_min$ & & & \\
-$F_max$ & & & \\
-$Scale$ & & & \\
-$Fh_min$ & & & \\
-$Fh_max$ & & & \\
-$G_0$ & & & \\
-$G_m$ & & & \\
-$c^l$ & & & \\
-$c^h$ & & & \\
-\hline
-\end{tabulary}
-
+\chapter{Results}
+\section{Numerical Simulation}
 
 \subsection{Implementation}
-link to source code
+The code for the following results was written in Python using the Pyomo modeling and optimization library. All data and code can be found at \\ https://github.com/cicconea/EnergyTransition. Data for parameters comes from the Energy Information Administration (EIA) unless otherwise stated.  
+
+\subsection{Functional Form Choices}
+
+\paragraph{} Several key parameters are allowed to vary over time. In this section I explain the modeling choices and sources of data for each of these parameters. 
+
+\paragraph{} Energy demand is exogenous and comes directly from the EIA. From the EIA demand forecast, I subtract generating capacity supplied by hydroelectric dams and nuclear plants to evaluate only the subset of demand that will be fulfilled by the clean (wind, solar photovoltaic) and dirty (coal, natural gas) technologies. I consider this an acceptable simplification that can still show the dynamics of the clean energy transition, though future work may want to include hydro and nuclear as well as separate wind, solar, gas and coal in to separate sectors. Energy demand growth is roughly linear over time, going from 2836 billion kWh in 2011 to 3734 billion kWh in 2040. For any simulation length greater than 30 years, I assume that growth will continue to grow at the same per year rate. 
+
+\paragraph{} While there may be future improvements in the cost of coal and natural gas plants, we might expect the majority of capital cost per kilowatt-hour decreases to come from the continuing switch from coal to gas-fired generation over the next 50 years. According to the EIA, coal powered generating capacity will go from 1717 billion kWh/year in 2011 (or 43\% of net generating capacity) to 1661 billion kWh/year (34\% of net generating capacity) in 2040, while natural gas will go from 925 billion kWh/year (23\%) in 2011 to 1605 billion kWh/year (33\%) in 2040 \cite{EIATable5}. Also from the EIA are estimates of current overnight capital costs to build a kW of generating capacity \cite{EIACapCost}. I then compute a weighted average overnight capital cost from the projected generating capacity and the current overnight capital costs. Note that $F^h(t)$ is the inverse of this weighted average. To arrive at a generating capacity per year, I convert the kW generating capacity to kWh/year assuming a capacity factor of 50\%. Similarly, I assume a weighted average of carbon intensities of energy for coal and gas. As the US economy transitions to having more gas-fired power plants, the carbon intensity of energy will go down over time. A summary of these parameters can be found in Table \ref{tab:ParamValues}. 
+
+\begin{figure}[h]\label{fig:FlScaleScenarios}
+\includegraphics[width=0.9\textwidth]{Fl_Simulation_Range.png}
+\caption{Scenarios of clean capital cost transition speed}
+\end{figure}
+
+\paragraph{} Of course, the main source of uncertainty in this model is the speed of cost reductions for clean energy capital. I model this forecast deterministically as a logistic function, with some initial low value and a maximum number of kWh/year per dollar that represents the cost floor of a mature technology. Varying the speed of transition between the minimum and maximum kWh/year/dollar allows us to understand the sensitivity of the objective function with respect to the speed by which clean capital cost decreases. Figure \ref{fig:FlScaleScenarios} gives some cost curve scenarios in comparison with the linear high-emitting capital cost curve. The minimum cost in each of these figures is half of the current weighted average overnight capital cost from the EIA and the maximum is the cost per kWh/year of natural gas. Both the minimum and the maximum are then adjusted to account for a lower renewable capacity factor (30\%) that accounts for the intermittent nature of renewable power generation. Emissions per kWh of clean energy are assumed to be 0; that is, any $C0_2$ emissions from the construction of the wind turbines or photovoltaic cells are assumed to be negligible. 
+
+
+\begin{table}[h]\label{tab:ParamValues}
+\begin{tabulary}{1.0\textwidth}{LLLL}
+Variable & Description & Value\\
+\hline
+$\alpha$ &  \% Business As Usual Emissions  &  Varied \\
+$Fl_min$ & Minimum kWh/year per dollar - Clean Capital & \\
+$F_max$ & Maximum kWh/year per dollar - Clean Capital & \\
+$Scale$ & Transition Speed  (Scale of Logistic Function) & \\
+$Fh_min$ & Minimum kWh/year per dollar - Dirty Capital & \\
+$Fh_max$ & Maximum kWh/year per dollar - Dirty Capital & \\
+$G_0$ & Base energy demand (bn kWh/year) & \\
+$G_m$ & Annual increase in energy demand (bn kWh/year) & \\
+$c^l$ & Capacity Factor Clean Capital & 30\% \\
+$c^h$ & Capacity Factor Dirty Capital & 50\% \\
+\hline
+\end{tabulary}
+\caption{Key parameters of simulation. Note that energy demand is excluding the generating capacity of hydroelectric dams and nuclear plants}
+\end{table}
+
+As we can see from the parameters in this table, clean capital has a higher cost per kWh/year than dirty capital, yet it has a significantly lower carbon footprint. By forcing capital in each period to meet some exogenous energy demand, we force the model to reconcile these two competing parameters, leading to changes in optimal investment profiles that fulfill the modeling requirements.
 
 
 
 \section{Model Results}
 \FloatBarrier
 
-
-
-
-\begin{figure}[h]\label{fig:SimpleResultsA=1}
-\includegraphics[width=\textwidth]{cap_and_invest_results_A_1.png}
-\caption{Alpha = 1}
-\end{figure}
-
-\begin{figure}[h]\label{fig:SimpleResultsA=25}
-\includegraphics[width=\textwidth]{cap_and_invest_results_A_25.png}
-\caption{Alpha = 25}
-\end{figure}
-
-\begin{figure}[h]\label{fig:SimpleResultsA=50}
-\includegraphics[width=\textwidth]{cap_and_invest_results_A_50.png}
-\caption{Alpha = 50}
-\end{figure}
-
-\begin{figure}[h]\label{fig:SimpleResultsA=75}
-\includegraphics[width=\textwidth]{cap_and_invest_results_A_75.png}
-\caption{Alpha = 75}
-\end{figure}
-
-
-\begin{figure}[h]\label{fig:SimpleResultsA=100}
-\includegraphics[width=\textwidth]{cap_and_invest_results_A_100.png}
-\caption{Alpha = 100}
-\end{figure}
-
-
-
-
-\begin{figure}[h]\label{fig:SimpleResultsFl=1}
-\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_1.png}
-\caption{Fl = 1}
-\end{figure}
-
-
-\begin{figure}[h]\label{fig:SimpleResultsFl=25}
-\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_25.png}
-\caption{Fl = 25}
-\end{figure}
-
-
-\begin{figure}[h]\label{fig:SimpleResultsFl=50}
-\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_50.png}
-\caption{Fl = 50}
-\end{figure}
-
-\begin{figure}[h]\label{fig:SimpleResultsFl=75}
-\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_75.png}
-\caption{Fl = 75}
-\end{figure}
-
-\begin{figure}[h]\label{fig:SimpleResultsFl=100}
-\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_100.png}
-\caption{Fl = 100}
-\end{figure}
-
-
-\begin{figure}[h]\label{fig:costVsFl}
-\includegraphics[width=\textwidth]{cost_as_func_of_Fl_emissions_05.png}
-\caption{Cost vs Fl}
-\end{figure}
+\paragraph{} I run the model multiple sets of parameter values. Specifically, two parameters of interest are the speed of clean capital cost reductions (Scale in table \ref{tab:ParamValues}) and the fraction of business as usual emissions that define the emissions cap. Based on the equations in section \ref{sec:ModelDesc}, we would expect the minimum cost of the transition to increase with the size of the emissions cap. As we require a smaller and smaller percentage of $CO_2$ to be emitted over the length of the simulation, we must build more and more low-emitting (clean) capital. Since it is more costly to build per kilowatt-hour than coal or gas plants, our objective function is penalized. Figure \ref{fig:costVsAlpha} shows the relationship between emissions reduction and total transition cost. 
 
 \begin{figure}[h]\label{fig:costVsAlpha}
 \includegraphics[width=\textwidth]{cost_as_func_of_Alpha.png}
@@ -428,28 +378,57 @@ link to source code
 
 
 
+\paragraph{} For high values of $\alpha$, the emissions cap is small compared to business as usual - that is, we commit to 1-$\alpha$ reduction in BAU emissions. Consequently, we do not have to build large amounts of clean capital to accomplish such a reduction and because it is less cost-efficient to build, we chose not to invest heavily in clean technologies. Figure \ref{fig:SimpleResultsA=75} gives an example of such a transition where the emissions cap is set to emit no more than 75\% of business as usual emissions. 
+
+\begin{figure}[h]\label{fig:SimpleResultsA=75}
+\includegraphics[width=\textwidth]{cap_and_invest_results_A_75.png}
+\caption{Alpha = 75}
+\end{figure}
+
+
+
+%%%%% Issue with references to figures. check if still issue later! %%%%%%%%%%%%%
+
+
+\paragraph{} In comparison, when the emissions cap is set much lower, say 25\% of business as usual emissions, investment in clean technologies must happen much sooner and with a higher magnitude of investment. Such a transition is shown in figure \ref{fig:SimpleResultsA=25}. 
+
+\begin{figure}[h]\label{fig:SimpleResultsA=25}
+\includegraphics[width=\textwidth]{cap_and_invest_results_A_25.png}
+\caption{Alpha = 25}
+\end{figure}
+
+
+
+\paragraph{} The characteristic spike in clean capital investment appears in all but the most extreme cases of parameter selection. Shown below are results from running the simulation over various speeds of clean capital cost reduction. As we would expect, the faster the cost reduction speed, the lower the cost of transition because we can take advantage of more cost-effective clean capital earlier in the simulation, reducing the need to early retire polluting capital once the economy nears it's emissions cap. The results from these simulations are shown in figure \ref{fig:costVsFl}. 
+
+\begin{figure}[h]\label{fig:costVsFl}
+\includegraphics[width=\textwidth]{cost_as_func_of_Fl_emissions_05.png}
+\caption{Cost vs Fl}
+\end{figure}
+
+
+\begin{figure}[h]\label{fig:SimpleResultsFl=1}
+\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_1.png}
+\caption{Fl = 1}
+\end{figure}
+
+\paragraph{} Similar patterns in our optimization solution emerge when we consider the speed of capital cost reductions of clean technologies. A low speed transition, such as one shown in figure \ref{fig:SimpleResultsFl=1} shows that additional positive investments in high-emitting technologies must be made early in the simulation to ensure adequate generating capacity. However, much of this early investment must be retired early to avoid exceeding the emissions cap resulting in a higher penalty to the overall transition cost as less cost-effective clean capital is substituted. This is contrasted with a very quick cost reduction scenario such as in figure \ref{fig:SimpleResultsFl=100} where hardly any additional high-emitting capital is invested at all. Instead the model can meet it's generation demand by substituting clean energy capacity at a relatively lower cost per kilowatt hour than in the previous scenario. While some high emitting capital must still be retired early, the amount of capital subjected to early retirement is roughly an order of magnitude less than in the slow-transition speed scenario. 
+
+\begin{figure}[h]\label{fig:SimpleResultsFl=100}
+\includegraphics[width=\textwidth]{cap_and_invest_results_Fl_100.png}
+\caption{Fl = 100}
+\end{figure}
 
 
 
 \FloatBarrier
 
+\section{Vintaged Model}
 
-\section{Model Discussion}
-
-efficiencies/emissions and their problem
-biases of results
-operating costs 
+TBD
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\chapter{The Vintaged Model}
-\section{Model Setup}
-
-\section{Model Math}
+\subsection{Model Math}
 
 Capital now is allowed to have a vintage associated with it's first year of construction:
 
@@ -520,10 +499,12 @@ C = \int_{i=0}^N  \left[ (H^+_i + L^+_i)e^{-ri}  - \beta  \int_{t=i}^N \int_{x=i
 
 
 
-
-\section{Model Results}
-
 \section{Model Discussion}
+
+efficiencies/emissions and their problem
+biases of results
+operating costs 
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -534,14 +515,6 @@ C = \int_{i=0}^N  \left[ (H^+_i + L^+_i)e^{-ri}  - \beta  \int_{t=i}^N \int_{x=i
 Future work - learning by doing, uncertainty
 
 
-%
-% Appendices
-%
-\appendix
-\chapter{}
-
-\chapter{}
-
 
 
 \singlespacing
@@ -549,9 +522,19 @@ Future work - learning by doing, uncertainty
 \addcontentsline{toc}{chapter}{References}
 
 \begin{thebibliography}{99}
-   % the 99 is as wide or wider than any bibliography labels.
-\bibitem{fragile}Anderson, Bruford, Squire, Wakeman.  \emph{Fragile}.
-  Atlantic, 1973.
+
+\bibitem{EIATable5}
+fill in
+
+
+
+\bibitem{EIACapCost}
+http://www.eia.gov/forecasts/capitalcost/pdf/updated\_capcost.pdf
+
+
+
+
+
 \end{thebibliography}
 
 \end{document}

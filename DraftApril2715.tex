@@ -1,16 +1,7 @@
-%  1. To get appendices, you don't do anything different from a normal
-%     report document.  That means, put the command \appendix before
-%     you begin your first appendix, then do each appendix with a
-%     \chapter command.  Note that if you have only one appendix, it is
-%     customary to leave it unnumbered.  Do this with \chapter*.
+%\documentclass[singlespace]{easychithesis}
 
-%  5. If your References section doesn't show up in the table of
-%     contents, you need to add the line \addcontentsline...
-%     as done at end of this file.   Make sure that you include the 
-%     page break command as done there or else you may end up
-%     with the wrong page number in your table of contents. 
- 
-\documentclass[singlespace]{easychithesis}
+\documentclass{easychithesis}
+
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -36,137 +27,34 @@
 \degree{Master of Science} 
 \maketitle
 
-% \dedication : Use for a dedication, copyright, or epigraph.
-%               Produces a page with no number for the text which follows
-%               If you want centering, do it yourself with 
-%               \begin{center} and \end{center}.  You can have more
-%               than one `dedication'.
-%\dedication
-%\begin{center}
-%        To Roger Dean
-%\end{center}
 
-
-% \topmatter : Things like Abstract, Acknowledgements.
-% For the abstract, you can also do 
-%      \begin{abstract} ...text... \end{abstract}
-% if you prefer.
-
-\topmatter{Abstract}
-TBD
-
-
-%\topmatter{Acknowledgements}
-
-%
-% Table Of Contents
-%
+\begin{abstract}
+To be completed
+ \end{abstract}
 
 \tableofcontents
 
-%
-% Begin Body
-%
 \mainmatter
 
 \chapter{Introduction}
-\section{Relevance}
+\section{Motivation}
 
-View problem of climate change as one of transition from fossil fuel energy to clean energy.
+\paragraph{} While there is emerging political consensus in the United States that climate change is occurring and will have significant economic and social impacts, there remain significant barriers to a low-carbon economy. Electric power generation accounts for roughly 30\% of total greenhouse gas emissions in the United States, the largest of any sector \cite{ElectricGHGEmit}. While there now exist renewable power generation sources, such as wind turbines and photovoltaic solar panels, costs remain high compared to traditional coal and natural gas power plants, though there is reason to believe that costs will decrease over time as technology improves and economies of scale begin to take effect. With scientific consensus to limit further greenhouse gas emissions to limit warming to an acceptable level, the problem that results is that of energy transition from $CO_2$ intensive to renewable technologies. 
 
-Need to replace large durable stock of infrastructure while meeting energy demand.
+\paragraph{} Reducing emissions can therefore be accomplished by replacing durable fossil fuel infrastructure. Existing infrastructure, however, may still have usable life remaining, and discarding it by early retirement is wasteful considering that there would need to be additional investment in new capital to meet total energy demands. However, in the event of an international treaty or other domestic regulation limiting greenhouse gas emissions, such early retirement may become necessary. In this paper i propose a simple model of a low-cost transition to clean power generation with exactly these constraints; a fixed energy demand and a carbon budget. 
 
-Goal is to understand the speed of transition.
+\paragraph{} The model proposed on the following pages seeks to answer the question of how best to transition to clean power generation. This model is intentionally simplified to several key equations to highlight the relationship between key parameters and the outcome. It is not intended to be an exact estimate of the optimal profile of clean energy investments nor give an exact value of the amount of capital that needs to be retired early. Instead I write down the simplest possible model that will allow us to develop an intuition for the key drivers of capital accrual and early retirement. 
 
-\begin{itemize}
-	\item{Do we keep on installing fossil fuel plants and plan on a quick transition in the future or do we gradually phase out fossil fuels?}
-	\item{What does the timing depend on?}
-	\item{If the optimal timing is to start replacing now, how does that affect treaty negotiations?}
-\end{itemize}
+\paragraph{} There are two sectors that produce electricity in this model, high-emitting or dirty capital such as coal plants and natural gas generators. The other sector is low-emitting or clean generating capital such as wind turbines and photovoltaic solar panels. Wind and solar are more expensive to build than gas or coal plants for the same unit of energy produced. However, neither wind nor solar emit the amount per kilowatt-hour of carbon dioxide that the dirty plants do, and thus will not be subjected to any international or domestic regulation regarding greenhouse gas emissions. 
+
+\paragraph{} The optimization requires minimizing the cost of building new capital in both sectors while meeting the domestic energy demand and complying with an emissions cap that is determined exogenously. With these constraints, we modify key parameter to understand what factors impact the speed of transition and timing of any necessary early retirement of polluting plants. In addition, existing capital depreciates exponentially regardless of early retirement. This creates an opportunity to substitute clean power generation without having to early retire any coal or natural gas plants. Therefore we could gradually replace high-emitting capital with clean as the high-emitting stock depreciates naturally. However in certain cases, the rate of natural depreciation may not be sufficient to avoid exceeding the emissions cap. In these cases substitution of fully depreciated capital with clean capital would be required, but early retirement of high-emitting capital would also be required. Additionally, the rate at which the cost of clean capital decreases may affect the optimal investment profile, if it becomes feasible that clean energy capital can be cost competitive with existing coal and gas plants. To this effect, I develop this model and run simulations with a range of parameters to show the sensitivity of the optimal transition cost to each of these parameters. 
 
 
+\section{Prior Work}
 
-Question: how to best transition to clean energy
+\paragraph{} Prior work in this area has followed two main approaches. Work by Jacobson \cite{Jacobson} seeks to match energy demand and supply using only "wind, water and solar" power, but neglects the optimal transition timing or the cost of early retiring existing capital. Projects such as the National Energy Modeling System attempt to forecast the impact of learning by doing on capital costs and incorporate this in to their projections. However their model is complex, with 20 power-generating technologies. and capital is retired only when it is no longer cost competitive with other generation capacity \cite{NEMS}. 
 
-\begin{itemize}
-\item Reducing emissions involves replacing the large, durable fossil fuel
-infrastructure.
-\item Fossil fuel energy is cheaper than renewables.
-\item But the cost of renewables is going down over time.
-\item What is the best transition path?
-
-
-\begin{itemize}
-\item Gradually replace fossil energy as plants and equipment depreciate?
-\item Keep replacing fossil with more fossil and then switch quickly?
-\item Gradual transition means no early retirements but at the cost of
-installing clean energy earlier (so maybe more expensive).
-\item Waiting means future early retirements but cheaper clean energy.
-\end{itemize}
-\end{itemize}
-
-
-
-
-\begin{itemize}
-\item Simplest possible model that captures the dynamics.
-
-\item Develop intuitions, orders of magnitude effects.
-
-\item Allows us to consider uncertainty, robustness etc.
-
-\item Not attempting to model actual energy system.
-\end{itemize}
-
-
-
-Exogenous:
-
-	\begin{itemize}
-    
-    	\item{Emissions Cap}
-        \item{Energy demand}
-
-	\end{itemize}
-
-
-Have to replace fossil fuel with clean energy to stay within the cap while meeting the energy demand.
-
-Cost of clean energy goes down over time. 
-
-Timing choice: 
-
-  \begin{itemize}
-
-	\item{Install more expensive clean energy now}
-	\item{Or wait for cheaper clean energy at the cost of installing new fossil fuel plants and retiring them early.}
-
-\end{itemize}
-
-
-
-\section{Literature Review}
-
-\begin{itemize}
-\item Engineering approaches
-
-\begin{itemize}
-\item Try to determine precise number of windmills, solar panels and so
-forth.
-
-\item E.g., Work by Jacobson.
-
-\item E.g. Earth Institute Deep Decarbonization Report
-\end{itemize}
-
-\item Jacard and Rivers
-
-\begin{itemize}
-\item Optimal stopping problem.
-\end{itemize}
-\end{itemize}
-
-
+\paragraph{} Jaccard and Rivers attempt to address this problem in their 2006 paper \cite{JR2006}. In it, they create an optimal stopping problem with existing capital stock depreciating linearly and an emissions constraint. They then find the time in the future where the emissions budget has been reached and the entire system must convert to clean technologies. As I explain in the following sections, while their model is simple and develops some intuition for the important of relative capital costs, I extend it by allowing clean and dirty capital to coexist at any given point and find the lowest cost transition profile to meet a similar emissions budget. 
 
 
 
@@ -174,17 +62,6 @@ forth.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Modeling Choices}
-\section{Model Setup}
-
-Power generation is accomplished by dollars of capital ($k^h(t), k^l(t)$) that can produce certain amounts of electricity in a given year.Capital is comprised of an initial investment $H_0$ or $L_0$ that depreciates exponentially, but can be supplemented with positive investments $H^+(t)$ or $L^+(t)$ that also depreciate exponentially, or retired early with $H^-(t)$ or $L^-(t)$.  \\
-
-Power is generated by multiplying each type of capital in a year by the overnight capital cost scaled by a capacity factor ($F^h(t), F^l(t)$. High-emitting (dirty) capital has a lower capital cost than low-emitting (clean) capital, but also has higher emissions ($m^h(t) > m^l(t) \forall t$). \\
-
-To minimize the cost of early retirement, we set our objective function to minimize the net present value of new investments ($H^+(t)$ and $L^+(t)$). Any early retirement of existing capital stock removes it from the generating capacity, so in order to meet power demand requirements, new capital must be built, which is penalized by the objective function. 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model Description}\label{sec:ModelDesc}
 
 \paragraph{} The region or country of interest produces electricity by two methods: clean (low emitting, represented by $k^l(t)$) and dirty (high emitting, represented by $k^h(t)$). Clean capital produces electricity with low carbon dioxide emissions, but, as a newer technology, it is more expensive per unit of power output than dirty. Since it is a new technology, the capital cost is expected to decrease over time as the production process matures and technological innovation produces lower-cost units. Dirty capital is a mature technology that is cheap to build but emits a higher level of carbon dioxide per unit of electricity produced than clean. Since it is a mature technology, there is little reason to believe that production costs will decline substantially in the future. 
@@ -377,6 +254,7 @@ As we can see from the parameters in this table, clean capital has a higher cost
 \end{figure}
 
 
+\FloatBarrier
 
 \paragraph{} For high values of $\alpha$, the emissions cap is small compared to business as usual - that is, we commit to 1-$\alpha$ reduction in BAU emissions. Consequently, we do not have to build large amounts of clean capital to accomplish such a reduction and because it is less cost-efficient to build, we chose not to invest heavily in clean technologies. Figure \ref{fig:SimpleResultsA=75} gives an example of such a transition where the emissions cap is set to emit no more than 75\% of business as usual emissions. 
 
@@ -388,6 +266,7 @@ As we can see from the parameters in this table, clean capital has a higher cost
 
 
 %%%%% Issue with references to figures. check if still issue later! %%%%%%%%%%%%%
+\FloatBarrier
 
 
 \paragraph{} In comparison, when the emissions cap is set much lower, say 25\% of business as usual emissions, investment in clean technologies must happen much sooner and with a higher magnitude of investment. Such a transition is shown in figure \ref{fig:SimpleResultsA=25}. 
@@ -398,6 +277,7 @@ As we can see from the parameters in this table, clean capital has a higher cost
 \end{figure}
 
 
+\FloatBarrier
 
 \paragraph{} The characteristic spike in clean capital investment appears in all but the most extreme cases of parameter selection. Shown below are results from running the simulation over various speeds of clean capital cost reduction. As we would expect, the faster the cost reduction speed, the lower the cost of transition because we can take advantage of more cost-effective clean capital earlier in the simulation, reducing the need to early retire polluting capital once the economy nears it's emissions cap. The results from these simulations are shown in figure \ref{fig:costVsFl}. 
 
@@ -411,6 +291,8 @@ As we can see from the parameters in this table, clean capital has a higher cost
 \includegraphics[width=\textwidth]{cap_and_invest_results_Fl_1.png}
 \caption{Fl = 1\label{fig:SimpleResultsFl=1}}
 \end{figure}
+
+\FloatBarrier
 
 \paragraph{} Similar patterns in our optimization solution emerge when we consider the speed of capital cost reductions of clean technologies. A low speed transition, such as one shown in figure \ref{fig:SimpleResultsFl=1} shows that additional positive investments in high-emitting technologies must be made early in the simulation to ensure adequate generating capacity. However, much of this early investment must be retired early to avoid exceeding the emissions cap resulting in a higher penalty to the overall transition cost as less cost-effective clean capital is substituted. This is contrasted with a very quick cost reduction scenario such as in figure \ref{fig:SimpleResultsFl=100} where hardly any additional high-emitting capital is invested at all. Instead the model can meet it's generation demand by substituting clean energy capacity at a relatively lower cost per kilowatt hour than in the previous scenario. While some high emitting capital must still be retired early, the amount of capital subjected to early retirement is roughly an order of magnitude less than in the slow-transition speed scenario. 
 
@@ -504,8 +386,11 @@ C = \int_{i=0}^N  \left[ (H^+_i + L^+_i)e^{-ri}  - \beta  \int_{t=i}^N \int_{x=i
 efficiencies/emissions and their problem
 biases of results
 operating costs 
-
-
+how capital cost fits with other costs/generation stack
+sensitivity to assumptions about fmin, fmax, fscale
+ignore things like natural gas pipelines
+ignore knock on line rail/truck costs from lower transportation of coal
+assuming distribution infrastructure doesn't change
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -526,13 +411,21 @@ Future work - learning by doing, uncertainty
 \bibitem{EIATable5}
 fill in
 
+\bibitem{JR2006}
+to do in papers file
 
 
 \bibitem{EIACapCost}
 http://www.eia.gov/forecasts/capitalcost/pdf/updated\_capcost.pdf
 
+\bibitem{ElectricGHGEmit}
+http://www.epa.gov/climatechange/ghgemissions/sources/electricity.html
 
+\bibitem{Jacobson}
+to do in papers file
 
+\bibitem{NEMS}
+to do in papers file
 
 
 \end{thebibliography}

@@ -223,19 +223,20 @@ The code for the following results was written in Python using the Pyomo modelin
 Variable & Description & Value\\
 \hline
 $\alpha$ &  \% Business As Usual Emissions  &  Varied \\
-$Fl_min$ & Minimum kWh/year per dollar - Clean Capital & \\
-$F_max$ & Maximum kWh/year per dollar - Clean Capital & \\
-$Scale$ & Transition Speed  (Scale of Logistic Function) & \\
-$Fh_min$ & Minimum kWh/year per dollar - Dirty Capital & \\
-$Fh_max$ & Maximum kWh/year per dollar - Dirty Capital & \\
-$G_0$ & Base energy demand (bn kWh/year) & \\
-$G_m$ & Annual increase in energy demand (bn kWh/year) & \\
+$Fl_min$ & Minimum kWh/year per dollar - Clean Capital & 0.343349882\\
+$F_max$ & Maximum kWh/year per dollar - Clean Capital & 2.8658669 \\
+$Scale$ & Transition Speed  (Scale of Logistic Function) & Varied \\
+$Fh_min$ & Minimum kWh/year per dollar - Dirty Capital & 2.628 \\
+$Fh_max$ & Maximum kWh/year per dollar - Dirty Capital & 4.7764449 \\
+$G_0$ & Base energy demand (bn kWh/year) & 2798.5 * 10**9 bn kWh\\
+$G_m$ & Annual increase in energy demand (bn kWh/year) & 32.238 * 10**9 bn kWh \\
 $c^l$ & Capacity Factor Clean Capital & 30\% \\
 $c^h$ & Capacity Factor Dirty Capital & 50\% \\
 \hline
 \end{tabulary}
 \caption{Key parameters of simulation. Note that energy demand is excluding the generating capacity of hydroelectric dams and nuclear plants}
 \end{table}
+
 
 As we can see from the parameters in this table, clean capital has a higher cost per kWh/year than dirty capital, yet it has a significantly lower carbon footprint. By forcing capital in each period to meet some exogenous energy demand, we force the model to reconcile these two competing parameters, leading to changes in optimal investment profiles that fulfill the modeling requirements.
 
@@ -397,24 +398,23 @@ G(t) = \int_0^t F^h(i)k_i^h(t) + F^l(i)k_i^l(t) di
 
 \begin{thebibliography}{99}
 
-\bibitem{EIATable5}
-fill in
+\bibitem{Jacobson}
+MZ Jacobson, MA Delucchi. Providing all global energy with wind, water, and solar power, Part I: Technologies, energy resources, quantities and areas of infrastructure, and materials. Energy Policy 39 (2011) 1154?1169
+
+\bibitem{NEMS}
+Energy Information Administration. The National Energy Modeling System: An Overview. October 2009
 
 \bibitem{JR2006}
-to do in papers file
+Jaccard and Rivers, Heterogeneous capital stocks and the optimal timing for CO2 abatement. Resource and Energy Economics 29 (2007) 1?16.
 
+\bibitem{EIATable5}
+fill in
 
 \bibitem{EIACapCost}
 http://www.eia.gov/forecasts/capitalcost/pdf/updated\_capcost.pdf
 
 \bibitem{ElectricGHGEmit}
 http://www.epa.gov/climatechange/ghgemissions/sources/electricity.html
-
-\bibitem{Jacobson}
-to do in papers file
-
-\bibitem{NEMS}
-to do in papers file
 
 
 \end{thebibliography}

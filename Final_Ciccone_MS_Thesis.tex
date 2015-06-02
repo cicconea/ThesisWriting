@@ -25,7 +25,7 @@
 
 
 \begin{abstract}
-To be completed
+I develop a model of electricity generation transition from high emitting capital, such as coal or natural gas power generation, to low emitting capital such as solar PV or wind turbines under an exogenous power demand and a carbon dioxide emissions constraint. The model allows early retirement of capital assets, but optimizes by minimizing additional capital built over the length of the simulation. Capital is dependent on investment in high and low emitting capital and an exponential depreciation schedule. I extend the model by allowing capital vintages and including saved operating costs in the objective function. I run simulations over the speed of transition of the productivity of clean energy assets as well as the total amount of $CO_2$ allowed to be emitted. While this model is intended to reflect the existing grid assets and costs, with estimates taken from the EIA, it is not intended to be a detailed prediction of the power sector. Future work can extend this model by endogenizing certain parameters and adding uncertainty in future costs of capital.
 \end{abstract}
 
 
@@ -115,80 +115,6 @@ E(H,L) \leq E_{max}
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Solving the Model Analytically}
-
-In order to attempt an analytical solution, I make several key assumptions about the functional forms of key parameters. While the equations for capital stocks remain the same, I assume a flat, fixed energy demand, $G$, through the length of the simulation. The energy per unit of capital for high-emitting technologies is similarly fixed at $F^h$ for the entire period, while it decays exponentially for low-emitting technology with a half life of $\tau$. Assuming these functional forms is arguably a good approximation of existing beliefs about the future costs of low-emitting technologies with learning by doing or economies of scale; that is, a rapid improvement in the output per dollar of capital that slowly levels off as t grows large. I further assume that high-emitting carbon intensity is fixed at $m^h$ and that there are no emissions associated with clean capital. With these simplification we now write the following optimization problem. \\
-
-Objective: Chose $H^+(t)$, $H^-(t)$, $L^+(t)$, and $L^-(t)$ to minimize:
-
-\begin{equation}\label{eq:analyticalObj}
-C = \int_0^N (H^+(t) + L^+(t))e^{-rt} dt
-\end{equation}
-
-Subject to: 
-
-\begin{multline}\label{eq:analyticalGen}
-G = \bar{F}^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) \\ + \bar{F}^l(1-e^{-t/\tau}) \left ( L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx\right )
-\end{multline}
-
-\begin{equation}\label{eq:analyticalEmit}
-m^hF^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) \leq \alpha N m^h F^h H^+(0)
-\end{equation}
-
-\begin{equation}\label{eq:analyticalHCapConstraint}
-H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \geq 0 
-\end{equation}
-
-\begin{equation}\label{eq:analyticalLCapConstraint}
-L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx \geq 0 
-\end{equation}
-
-\begin{equation}\label{eq:analyticalDecisionVarConstraint}
-H^+(t), H^-(t), L^+(t), L^-(t) \geq 0
-\end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{First Order Conditions for Simple Model}
-
-Note that a solution will go here if I can get one. For now, the first order conditions are as follows:
-
-\begin{equation}\label{eq:dLdH+}
-\frac{d\Lagr}{dH^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\rho - \lambda F^h -\mu m F^h) + \sigma = 0
-\end{equation}
-
-\begin{equation}\label{eq:dLdH-}
-\frac{d\Lagr}{dH^-(t)} = (\lambda F^h +\mu m F^h - \rho)t + \phi = 0
-\end{equation}
-
-\begin{equation}\label{eq:dLdL+}
-\frac{d\Lagr}{dL^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\pi - \lambda F^l(1-e^{-t/\tau})) + \gamma = 0
-\end{equation}
-
-\begin{equation}\label{eq:dLdL-}
-\frac{d\Lagr}{dL^-(t)} = (\lambda F^l(1-e^{-t/\tau}) - \pi)t + \delta = 0
-\end{equation}
-
-\begin{multline}\label{eq:dLdlambda}
-\frac{d\Lagr}{d\lambda} = G - F^h\left[nH^+(t) + e^{-t/n}(n^2 + H_0(1-n)) - n^2 + \int_0^tH^-(x)dx\right] \\ - F^l (1-e^{-t/\tau})\left[nL^+(t) + e^{-t/n}(n^2 + L_0(1-n)) - n^2 + \int_0^tL^-(x)dx\right] = 0
-\end{multline}
-
-\begin{multline}\label{eq:dLdmu}
-\frac{d\Lagr}{d\mu} = \bar{E} - mF^h \left [(1-e^{-N/n})(1-n)H_0 n + n^2(N + n(1-e^{-N/n})) \right.\\ + \left. n\int_0^N H^+(t) dt - \int_0^N\int_0^t H^-(x)dx dt   \right] \geq 0
-\end{multline}
-
-\begin{equation}\label{eq:dLdrho}
-\frac{d\Lagr}{d\rho} = H_0 e^{-t/n}(1-n) + nH^+(t) - n^2(1-e^{-t/n}) - \int_0^t H^-(x)dx \geq 0 
-\end{equation}
-
-\begin{equation}\label{eq:dLdpi}
-\frac{d\Lagr}{d\pi} = L_0 e^{-t/n}(1-n) + nL^+(t) - n^2(1-e^{-t/n}) - \int_0^t L^-(x)dx \geq 0 
-\end{equation}
-
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
@@ -211,19 +137,20 @@ The code for the following results was written in Python using the Pyomo modelin
 
 \paragraph{} Of course, the main source of uncertainty in this model is the speed of cost reductions for clean energy capital. I model this forecast deterministically as a logistic function, with some initial low value and a maximum number of kWh/year per dollar that represents the cost floor of a mature technology. Varying the speed of transition between the minimum and maximum kWh/year/dollar, as well as maximum output/\$ value allows us to understand the sensitivity of the objective function with respect to the speed by which clean capital cost decreases. Figure \ref{fig:FlScaleScenarios} gives some cost curve scenarios in comparison with the linear high-emitting capital cost curve. The minimum cost in each of these figures is half of the current weighted average overnight capital cost from the EIA and the maximum is the cost per kWh/year of natural gas. Both the minimum and the maximum are then adjusted to account for a lower renewable capacity factor (30\%) that accounts for the intermittent nature of renewable power generation. Emissions per kWh of clean energy are assumed to be 0; that is, any $C0_2$ emissions from the construction of the wind turbines or photovoltaic cells are assumed to be negligible. 
 
+\FloatBarrier
 
 \begin{table}[h]\label{tab:ParamValues}
 \begin{tabulary}{1.0\textwidth}{LLLL}
 Variable & Description & Value\\
 \hline
 $\alpha$ &  \% Business As Usual Emissions  &  Varied \\
-$Fl_min$ & Minimum kWh/year per dollar - Clean Capital & 0.343349882\\
-$F_max$ & Maximum kWh/year per dollar - Clean Capital & 2.8658669 \\
+$Fl_{min}$ & Minimum kWh/year per dollar - Clean Capital & 0.343349882\\
+$F_{max}$ & Maximum kWh/year per dollar - Clean Capital & 2.8658669 \\
 $Scale$ & Transition Speed  (Scale of Logistic Function) & Varied \\
-$Fh_min$ & Minimum kWh/year per dollar - Dirty Capital & 2.628 \\
-$Fh_max$ & Maximum kWh/year per dollar - Dirty Capital & 4.7764449 \\
-$G_0$ & Base energy demand (bn kWh/year) & 2798.5 * 10**9 bn kWh\\
-$G_m$ & Annual increase in energy demand (bn kWh/year) & 32.238 * 10**9 bn kWh \\
+$Fh_{min}$ & Minimum kWh/year per dollar - Dirty Capital & 2.628 \\
+$Fh_{max}$ & Maximum kWh/year per dollar - Dirty Capital & 4.7764449 \\
+$G_0$ & Base energy demand (kWh/year) & $2798.5 * 10^9$ kWh\\
+$G_m$ & Annual increase in energy demand (kWh/year) & $32.238 * 10^9$ kWh \\
 $c^l$ & Capacity Factor Clean Capital & 30\% \\
 $c^h$ & Capacity Factor Dirty Capital & 50\% \\
 \hline
@@ -234,12 +161,13 @@ $c^h$ & Capacity Factor Dirty Capital & 50\% \\
 
 As we can see from the parameters in this table, clean capital has a higher cost per kWh/year than dirty capital, yet it has a significantly lower carbon footprint. By forcing capital in each period to meet some exogenous energy demand, we force the model to reconcile these two competing parameters, leading to changes in optimal investment profiles that fulfill the modeling requirements.
 
+\FloatBarrier
 
 
 \subsection{Model Results}
 \FloatBarrier
 
-\paragraph{} I run the model multiple sets of parameter values. Specifically, two parameters of interest are the speed of clean capital cost reductions (Scale in table \ref{tab:ParamValues}) and the fraction of business as usual emissions that define the emissions cap. Based on the equations in section \ref{sec:ModelDesc}, we would expect the minimum cost of the transition to increase with the size of the emissions cap. As we require a smaller and smaller percentage of $CO_2$ to be emitted over the length of the simulation, we must build more and more low-emitting (clean) capital. Since it is more costly to build per kilowatt-hour than coal or gas plants, our objective function is penalized. Figure \ref{fig:costVsAlpha} shows the relationship between emissions reduction and total transition cost. 
+\paragraph{} I run the model multiple sets of parameter values. Specifically, three parameters of interest are the speed of clean capital cost reductions (Scale in table \ref{tab:ParamValues}), the minimum cost reached by low emitting capital, and the fraction of business as usual emissions that define the emissions cap. Based on the equations in section \ref{sec:ModelDesc}, we would expect the minimum cost of the transition to increase with the increasing restriction of the emissions cap. As we require a smaller and smaller percentage of $CO_2$ to be emitted over the length of the simulation, we must build more and more low-emitting (clean) capital. Since it is more costly to build per kilowatt-hour than coal or gas plants, our objective function is penalized. Figure \ref{fig:costVsAlpha} shows the relationship between emissions reduction and total transition cost. 
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{cost_as_func_of_Alpha.png}
@@ -249,11 +177,11 @@ As we can see from the parameters in this table, clean capital has a higher cost
 
 \FloatBarrier
 
-\paragraph{} For high values of $\alpha$, the emissions cap is small compared to business as usual - that is, we commit to 1-$\alpha$ reduction in BAU emissions. Consequently, we do not have to build large amounts of clean capital to accomplish such a reduction and because it is less cost-efficient to build, we chose not to invest heavily in clean technologies. Figure \ref{fig:SimpleResultsA=75} gives an example of such a transition where the emissions cap is set to emit no more than 75\% of business as usual emissions. 
+\paragraph{} For high values of $\alpha$, the emissions cap is small compared to business as usual - that is, we commit to 1-$\alpha$ reduction in BAU emissions. Consequently, we do not have to build large amounts of clean capital to accomplish such a reduction and because it is less cost-efficient to build, we chose not to invest heavily in clean technologies. Figure \ref{fig:SimpleResultsA=50} gives an example of such a transition where the emissions cap is set to emit no more than 50\% of business as usual emissions. 
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{simple_cap_and_invest_results_Fl_1_alpha_75_FLFrac_25.png}
-\caption{A slow transition speed with a lenient transition speed and high cost of renewable capital\label{fig:SimpleResultsA=75}}
+\includegraphics[width=\textwidth]{simple_cap_and_invest_results_Fl_5_alpha_50_FLFrac_50.png}
+\caption{A slow transition speed with a lenient emissions reduction fraction and moderate of renewable capital\label{fig:SimpleResultsA=50}}
 \end{figure}
 
 
@@ -261,18 +189,20 @@ As we can see from the parameters in this table, clean capital has a higher cost
 \FloatBarrier
 
 
-\paragraph{} In comparison, when the emissions cap is set much lower, say 50\% of business as usual emissions, investment in clean technologies must happen much sooner and with a higher magnitude of investment. Such a transition is shown in figure \ref{fig:SimpleResultsA=25}. 
+\paragraph{} In comparison, when the emissions cap is set much lower, say 25\% of business as usual emissions, investment in clean technologies must happen much sooner and with a higher magnitude of investment. Such a transition is shown in figure \ref{fig:SimpleResultsA=25}. An increased transition speed means that the cost of clean has come down faster than in Figure \ref{fig:SimpleResultsA=50}, resulting in a lower total capital investment. In the figure below, the investment spike in clean energy due to early retirement around year 27 is roughly half of the corresponding investment made in the prior figure as a result. This spike in investment is driven by the early retirement of polluting capital to avoid exceeding the emissions cap through the remainder of the simulation. Thus we can see a stricter emissions limit in the figure below, where emissions were limited to 25\% of business as usual, results in an earlier timeline for early retirement than in Figure \ref{fig:SimpleResultsA=50}.
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{simple_cap_and_invest_results_Fl_10_alpha_50_FLFrac_50.png}
-\caption{Medium transition speed with 50\% emissions reduction and moderate cost of renewable capital\label{fig:SimpleResultsA=25}}
+\includegraphics[width=\textwidth]{simple_cap_and_invest_results_Fl_5_alpha_25_FLFrac_50.png}
+\caption{Slow transition speed with 50\% emissions reduction and moderate cost of renewable capital\label{fig:SimpleResultsA=25}}
 \end{figure}
 
 
 \FloatBarrier
 
-\paragraph{} The characteristic spike in clean capital investment appears in all but the most extreme cases of parameter selection. Shown below are results from running the simulation over various speeds of clean capital cost reduction. As we would expect, the faster the cost reduction speed, the lower the cost of transition because we can take advantage of more cost-effective clean capital earlier in the simulation, reducing the need to early retire polluting capital once the economy nears it's emissions cap. 
+%\paragraph{} The characteristic spike in clean capital investment appears in all but the most extreme cases of parameter selection. Shown below are results from running the simulation over various speeds of clean capital cost reduction. As we would expect, the faster the cost reduction speed, the lower the cost of transition because we can take advantage of more cost-effective clean capital earlier in the simulation, reducing the need to early retire polluting capital once the economy nears it's emissions cap. 
 
+
+\paragraph{} Similarly, the fast cost transition speed scenario shown below again shows a reduction in the total clean capital required to replace the same amount of polluting technology being early retired. Since the clean capital is more productive in the fast transition scenario, fewer dollars are needed to meet the generating demand than in figure \ref{fig:SimpleResultsA=50}. 
 
 
 \begin{figure}[h]
@@ -282,15 +212,19 @@ As we can see from the parameters in this table, clean capital has a higher cost
 
 \FloatBarrier
 
-\paragraph{} Similar patterns in our optimization solution emerge when we consider the speed of capital cost reductions of clean technologies. A fast speed transition, such as one shown in figure \ref{fig:SimpleResultsFl=1} shows that additional positive investments in high-emitting technologies may be made later in the simulation to ensure adequate generating capacity. However, much of this early investment must be retired early to avoid exceeding the emissions cap resulting in a higher penalty to the overall transition cost as less cost-effective clean capital is substituted. This is contrasted with a very quick cost reduction scenario such as in figure \ref{fig:SimpleResultsA=25} where hardly any additional high-emitting capital is invested at all. Instead the model can meet it's generation demand by substituting clean energy capacity at a relatively lower cost per kilowatt hour than in the previous scenario. While some high emitting capital must still be retired early, the amount of capital subjected to early retirement is roughly an order of magnitude less than in the slow-transition speed scenario. 
+Finally, varying the final cost per kilowatt-hour of the clean capital has an effect on the transition profile from polluting to clean technologies. In figure \ref{fig:SimpleResultsFl=1}, we can see that since the clean capital is more productive, since it reaches a higher kWh/\$ in each year than a similar cost curve with the same transition speed, but a lower final cost. Therefore while the year of early retirement remains the same, the total amount of clean capital required to be invested is less because each unit is more productive. 
 
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{simple_cap_and_invest_results_Fl_15_alpha_50_FLFrac_100.png}
+\caption{Fast transition speed with 50\% emissions reduction and moderate cost of renewable capital\label{fig:SimpleResultsFl=1}}
+\end{figure}
 
 
 \FloatBarrier
 
 \subsection{Vintaged Model}\label{VintExplan}
 
-\paragraph{} In the simple model described above, the mechanics of the problem are explained simply and with supporting intuition. However it ignores some key facts about the energy system that are relevant to the solution. The first simplification is that all capital of a particular type in a certain time has the same kilowatt-hour/year per dollar value ($F^h(t), F^l(t)$). That is, the investment of any capital in an early period benefits from improved cost effectiveness in later periods despite being physically the same plant. Treated as a lump sum of capital, this simplification is understandable, yet it biases results towards premature investment in a technology by assuming that any early investment will benefit from a decreasing future cost curve. 
+\paragraph{} In the simple model described above, the mechanics of the problem are explained simply and with supporting intuition. However this simple version ignores some key facts about the energy system that are relevant to the solution. The first simplification is that all capital of a particular type in a certain time has the same kilowatt-hour/year per dollar value ($F^h(t), F^l(t)$). That is, the investment of any capital in an early period benefits from improved cost effectiveness in later periods despite being physically the same plant. Treated as a lump sum of capital, this simplification is understandable, yet it biases results towards premature investment in a technology by assuming that any early investment will benefit from a decreasing future cost curve. 
 
 \paragraph{} To address this issue, we introduce capital vintages. In each year of the simulation we allow investment in high and low emitting capital. In subsequent years this capital depreciates exponentially but can also be early retired, as long as the total capital of that vintage remains a non-negative number. Then we define our kilowatt-hour per dollar value profile based on the vintage year, not the simulation year so that we can track the accurate generating capacity of the whole sector. This creates an incentive in the model to early retire old vintages of capital first, as they provide the least generation capability per dollar, mimicking a rational investment decision that we would expect in reality. 
 
@@ -348,26 +282,41 @@ G(t) = \int_0^t F^h(i)k_i^h(t) + F^l(i)k_i^l(t) di
 \int_{t=0}^{t=N}\int_{i=0}^{i=t} m^h(i)F^h(i)k_i^h(t) + m^l(i)F^l(i)k_i^l(t) di dt \leq \bar{E}
 \end{equation}
 
-\section{Results}
+\subsection{Results}
 
+\paragraph{} Using the same assumptions about the functional forms of the productivities of capital and their emissions potential, I now implement and run a version of the same model with vintages of capital. Note that now each $F^h$ and $F^l$ now correspond to the productivity of each vintage, not of time. That is, in each period of the simulation the model can invest in new capital at that period's productivity and if, in future periods some of that capital is retired early, the generating capacity of the system is reduced by that vintage's productivity and not the productivity of the period in which it is retired. 
 
+\paragraph{} The results of the vintaged simulation are shown below for the same set of parameters as the simple model results shown above. Though the parameters for each simulation are the same, some important differences emerge in the results of the vintaged model. In figure \ref{fig:VintResultsFl=5_Alpha_50_Frac50}, early retirement of fossil fuel based capital still occurs, however it retires later, in year 30 instead of in year 27. Smaller amounts of high-emitting capital are retired, and are replaced by a smaller amount of clean capital. Remarkably, however, the total profile of the capital transition are identical, though the vintaged model requires more total capital in each year. 
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{vint_cap_and_invest_results_Fl_1_alpha_075_FLFrac_025.png}
-\caption{Slow transition speed with lenient emissions reduction and high cost of renewable capital\label{fig:VintResultsFl=1_Alpha75_Frac25}}
+\includegraphics[width=\textwidth]{vint_cap_and_invest_results_Fl_5_alpha_05_FLFrac_05.png}
+\caption{Slow transition speed with 50\% emissions reduction fraction and moderate cost of renewable capital\label{fig:VintResultsFl=5_Alpha50_Frac50}}
 \end{figure}
 
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{vint_cap_and_invest_results_Fl_10_alpha_05_FLFrac_05.png}
-\caption{Medium transition speed with 50\% emissions reduction and moderate cost of renewable capital\label{fig:VintResultsFl=10_Alpha50_Frac50}}
-\end{figure}
+\FloatBarrier
 
-\begin{figure}[h]
+
+\begin{figure}[H]
 \includegraphics[width=\textwidth]{vint_cap_and_invest_results_Fl_15_alpha_05_FLFrac_05.png}
 \caption{Fast transition speed with 50\% emissions reduction and moderate cost of renewable capital\label{fig:VintResultsFl=15_Alpha50_Frac50}}
 \end{figure}
 
+\paragraph{} Speeding the transition speed of clean technologies while keeping all other parameters equal has the same effect as in the simple model; early retirement is delayed as shown in figure \ref{fig:VintResultsFl=15_Alpha50_Frac50}. And finally, shifting the emissions cap to be more strict results in any early retirement happening much earlier in the simulation, along with an earlier investment in clean capital, as shown in figure \ref{fig:VintResultsFl=15_Alpha25_Frac50}
 
+
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{vint_cap_and_invest_results_Fl_5_alpha_025_FLFrac_05.png}
+\caption{Slow transition speed with 25\% emissions reduction and moderate cost of renewable capital. \label{fig:VintResultsFl=15_Alpha25_Frac50}}
+\end{figure}
+
+
+\paragraph{} Note that in the scenario shown in figure \ref{fig:VintResultsFl=15_Alpha25_Frac50}, no additional high-emitting capital is built, and in fact some must be early retired in order to meet the strict emissions requirement. This is a scenario where the emissions requirement is so stringent that we must only build clean capital over the entire simulation. This implies that for certain parameter values, the United States may already be over-built in polluting capital. 
+
+\paragraph{} In all of these vintaged model, early retirement brings a benefit of savings on operating costs. This would drive the model to early retire earlier and larger amounts than in the simple model, though we do not observe this. This indicates that the effect of the emissions constraint dominates the benefit of operational savings. 
+
+
+\FloatBarrier
 
 
 \section{Model Discussion}
@@ -387,6 +336,88 @@ G(t) = \int_0^t F^h(i)k_i^h(t) + F^l(i)k_i^l(t) di
 
 
 \paragraph{} However the most important sensitivity of the model is to the speed of clean capital cost reductions. Shown below in figure \ref{fig:costVsFl} are the optimal cost solutions to simulations run with different cost reduction speeds. A higher value on the x-axis means that the speed of transition is faster. Examples of the range of transmission profiles can be found above in figure \ref{fig:FlScaleScenarios}. For slow transitions, the model is extremely sensitive to improvements in cost reductions. As the speed of transition increases, the model becomes less sensitive to improvements, presumably because we reach the minimum cost per kilowatt-hour quickly. A natural extension to this model would be endogenizing the cost of clean capital using a learning by doing approach. Alternatively, future work could include modeling this problem with uncertainty in the future distribution of cost reductions. Currently the model has perfect foresight, which may lead to over-investment in renewable technology early in the simulation as planners know that the cost effectiveness will increase in the future. With uncertainty in the cost of clean capital, we would better reflect the current challenges facing the clean energy transition
+
+\section{Conclusion}
+
+\paragraph{} This project was motivated by the desire to understand the effects of key parameters on a transition to clean energy technologies with the constraint of a maximum emissions level. I set up a model that extended a version of Jacquard and Rivers's 2006 paper and performed a sensitivity analysis over key values of parameters. While the model does not attempt to mimic the details of the power sector in the United States, however it demonstrates the consistency of the optimal profile of transition, including early retirement of existing fossil fuel-based stocks in all but the most forgiving of scenarios. Furthermore, the model is highly dependent on the lifetime of existing capital stock. Instead of modeling lifetimes of capital as dependent on the price of electricity it supplies, I model a fixed depreciation schedule for each vintage. If this lifetime changes, or if the model is changed to assume a fixed operation lifetime followed by shutdown, the profile of early retirements may change dramatically. Specifically for longer-lived assets, the amount of capital that will need to be retired early may increase significantly. 
+
+\paragraph{} I extend the simple model developed above by including vintages of capital and including the savings from operating costs. While some small changes to the results occur by including this complication, ultimately including vintages does not change the model profile or results significantly. There are other extensions that should be considered, however. First, investigating the sensitivity of the model results to varied depreciation schedule of the assets could be modeled more realistically. Endogenizing capital asset productivity using a learning by doing approach may also change results by incorporating productivity increases when clean technologies are invested in earlier than the existing model recommends. Finally, adding uncertainty over the future costs of clean technologies will better mimic the real world situation where we do not have perfect foresight over the costs of solar and wind power over the next century. 
+
+
+
+
+
+\pagebreak
+\appendix
+\section{First Order Conditions for Simple Model}
+
+In order to attempt an analytical solution, I make several key assumptions about the functional forms of key parameters. While the equations for capital stocks remain the same, I assume a flat, fixed energy demand, $G$, through the length of the simulation. The energy per unit of capital for high-emitting technologies is similarly fixed at $F^h$ for the entire period, while it decays exponentially for low-emitting technology with a half life of $\tau$. Assuming these functional forms is arguably a good approximation of existing beliefs about the future costs of low-emitting technologies with learning by doing or economies of scale; that is, a rapid improvement in the output per dollar of capital that slowly levels off as t grows large. I further assume that high-emitting carbon intensity is fixed at $m^h$ and that there are no emissions associated with clean capital. With these simplification we now write the following optimization problem. \\
+
+Objective: Chose $H^+(t)$, $H^-(t)$, $L^+(t)$, and $L^-(t)$ to minimize:
+
+\begin{equation}\label{eq:analyticalObj}
+C = \int_0^N (H^+(t) + L^+(t))e^{-rt} dt
+\end{equation}
+
+Subject to: 
+
+\begin{multline}\label{eq:analyticalGen}
+G = \bar{F}^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) \\ + \bar{F}^l(1-e^{-t/\tau}) \left ( L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx\right )
+\end{multline}
+
+\begin{equation}\label{eq:analyticalEmit}
+m^hF^h\left (H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \right) \leq \alpha N m^h F^h H^+(0)
+\end{equation}
+
+\begin{equation}\label{eq:analyticalHCapConstraint}
+H_0 e^{-t/n} + \int_0^t e^{x-t/n} H^+(x) dx - \int_0^t H^-(x)dx \geq 0 
+\end{equation}
+
+\begin{equation}\label{eq:analyticalLCapConstraint}
+L_0 e^{-t/n} + \int_0^t e^{x-t/n} L^+(x) dx - \int_0^t L^-(x)dx \geq 0 
+\end{equation}
+
+\begin{equation}\label{eq:analyticalDecisionVarConstraint}
+H^+(t), H^-(t), L^+(t), L^-(t) \geq 0
+\end{equation}
+
+
+
+The first order conditions for a solution to the model are listed below in equations \ref{eq:dLdH+} through \ref{eq:dLdpi}.
+
+
+\begin{equation}\label{eq:dLdH+}
+\frac{d\Lagr}{dH^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\rho - \lambda F^h -\mu m F^h) + \sigma = 0
+\end{equation}
+
+\begin{equation}\label{eq:dLdH-}
+\frac{d\Lagr}{dH^-(t)} = (\lambda F^h +\mu m F^h - \rho)t + \phi = 0
+\end{equation}
+
+\begin{equation}\label{eq:dLdL+}
+\frac{d\Lagr}{dL^+(t)} = 1/r(e^{-rN} -1) + n(1-e^{-t/n})(\pi - \lambda F^l(1-e^{-t/\tau})) + \gamma = 0
+\end{equation}
+
+\begin{equation}\label{eq:dLdL-}
+\frac{d\Lagr}{dL^-(t)} = (\lambda F^l(1-e^{-t/\tau}) - \pi)t + \delta = 0
+\end{equation}
+
+\begin{multline}\label{eq:dLdlambda}
+\frac{d\Lagr}{d\lambda} = G - F^h\left[nH^+(t) + e^{-t/n}(n^2 + H_0(1-n)) - n^2 + \int_0^tH^-(x)dx\right] \\ - F^l (1-e^{-t/\tau})\left[nL^+(t) + e^{-t/n}(n^2 + L_0(1-n)) - n^2 + \int_0^tL^-(x)dx\right] = 0
+\end{multline}
+
+\begin{multline}\label{eq:dLdmu}
+\frac{d\Lagr}{d\mu} = \bar{E} - mF^h \left [(1-e^{-N/n})(1-n)H_0 n + n^2(N + n(1-e^{-N/n})) \right.\\ + \left. n\int_0^N H^+(t) dt - \int_0^N\int_0^t H^-(x)dx dt   \right] \geq 0
+\end{multline}
+
+\begin{equation}\label{eq:dLdrho}
+\frac{d\Lagr}{d\rho} = H_0 e^{-t/n}(1-n) + nH^+(t) - n^2(1-e^{-t/n}) - \int_0^t H^-(x)dx \geq 0 
+\end{equation}
+
+\begin{equation}\label{eq:dLdpi}
+\frac{d\Lagr}{d\pi} = L_0 e^{-t/n}(1-n) + nL^+(t) - n^2(1-e^{-t/n}) - \int_0^t L^-(x)dx \geq 0 
+\end{equation}
+
 
 
 
